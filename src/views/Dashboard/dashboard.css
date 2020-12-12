@@ -4,5 +4,6 @@ img{
 }
 
 h1{
-    background-color: aqua;
+    background-color: rgb(255, 253, 253);
+    max-width: 43%;
 }

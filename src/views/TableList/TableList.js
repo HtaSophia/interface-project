@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 // core components
@@ -8,6 +8,7 @@ import Table from "components/Table/Table.js";
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
+import axios from 'axios';
 
 const styles = {
   cardCategoryWhite: {
@@ -42,71 +43,91 @@ const styles = {
 const useStyles = makeStyles(styles);
 
 export default function TableList() {
-  const classes = useStyles();
-  return (
-    <GridContainer>
-      <GridItem xs={12} sm={12} md={12}>
-        <Card>
-          <CardHeader color="primary">
-            <h4 className={classes.cardTitleWhite}>Simple Table</h4>
-            <p className={classes.cardCategoryWhite}>
-              Here is a subtitle for this table
-            </p>
-          </CardHeader>
-          <CardBody>
-            <Table
-              tableHeaderColor="primary"
-              tableHead={["Name", "Country", "City", "Salary"]}
-              tableData={[
-                ["Dakota Rice", "Niger", "Oud-Turnhout", "$36,738"],
-                ["Minerva Hooper", "Curaçao", "Sinaai-Waas", "$23,789"],
-                ["Sage Rodriguez", "Netherlands", "Baileux", "$56,142"],
-                ["Philip Chaney", "Korea, South", "Overland Park", "$38,735"],
-                ["Doris Greene", "Malawi", "Feldkirchen in Kärnten", "$63,542"],
-                ["Mason Porter", "Chile", "Gloucester", "$78,615"]
-              ]}
-            />
-          </CardBody>
-        </Card>
-      </GridItem>
-      <GridItem xs={12} sm={12} md={12}>
-        <Card plain>
-          <CardHeader plain color="primary">
-            <h4 className={classes.cardTitleWhite}>
-              Table on Plain Background
-            </h4>
-            <p className={classes.cardCategoryWhite}>
-              Here is a subtitle for this table
-            </p>
-          </CardHeader>
-          <CardBody>
-            <Table
-              tableHeaderColor="primary"
-              tableHead={["ID", "Name", "Country", "City", "Salary"]}
-              tableData={[
-                ["1", "Dakota Rice", "$36,738", "Niger", "Oud-Turnhout"],
-                ["2", "Minerva Hooper", "$23,789", "Curaçao", "Sinaai-Waas"],
-                ["3", "Sage Rodriguez", "$56,142", "Netherlands", "Baileux"],
-                [
-                  "4",
-                  "Philip Chaney",
-                  "$38,735",
-                  "Korea, South",
-                  "Overland Park"
-                ],
-                [
-                  "5",
-                  "Doris Greene",
-                  "$63,542",
-                  "Malawi",
-                  "Feldkirchen in Kärnten"
-                ],
-                ["6", "Mason Porter", "$78,615", "Chile", "Gloucester"]
-              ]}
-            />
-          </CardBody>
-        </Card>
-      </GridItem>
-    </GridContainer>
-  );
+
+    const [data, setData] = useState([
+
+    ]);
+
+    function handleQuery(){
+        axios
+          .get("http://localhost:8080/TemplateWS/rest/ws//alunos/JSON")
+          .then(response => {
+
+            console.log(response.data.lista);
+            const alunos = response.data.lista.map(data => {
+              return {
+                id: data.id,
+                cpf: data.cpf,
+                matricula: data.matricula,
+                nome: data.nome,
+                idEndereco: data.idEndereco,
+                curso: data.curso
+              }
+            })
+            setData(alunos);
+          })
+      }
+
+
+    const classes = useStyles();
+    return (
+        handleQuery(),
+        <GridContainer>
+        <GridItem xs={12} sm={12} md={12}>
+            <Card>
+            <CardHeader color="primary">
+                <h4 className={classes.cardTitleWhite}>Alunos</h4>
+                <p className={classes.cardCategoryWhite}>
+                Todos os alunos
+                </p>
+            </CardHeader>
+            <CardBody>
+                <Table
+                tableHeaderColor="primary"
+                tableHead={["Id", "Matrícula", "Nome", "CPF", "idEndereço", "Curso"]}
+                tableData={[]}
+                />
+            </CardBody>
+            </Card>
+        </GridItem>
+        <GridItem xs={12} sm={12} md={12}>
+            <Card plain>
+            <CardHeader plain color="primary">
+                <h4 className={classes.cardTitleWhite}>
+                Table on Plain Background
+                </h4>
+                <p className={classes.cardCategoryWhite}>
+                Here is a subtitle for this table
+                </p>
+            </CardHeader>
+            <CardBody>
+                <Table
+                tableHeaderColor="primary"
+                tableHead={["ID", "Name", "Country", "City", "Salary"]}
+                tableData={[
+                    ["1", "Dakota Rice", "$36,738", "Niger", "Oud-Turnhout"],
+                    ["2", "Minerva Hooper", "$23,789", "Curaçao", "Sinaai-Waas"],
+                    ["3", "Sage Rodriguez", "$56,142", "Netherlands", "Baileux"],
+                    [
+                    "4",
+                    "Philip Chaney",
+                    "$38,735",
+                    "Korea, South",
+                    "Overland Park"
+                    ],
+                    [
+                    "5",
+                    "Doris Greene",
+                    "$63,542",
+                    "Malawi",
+                    "Feldkirchen in Kärnten"
+                    ],
+                    ["6", "Mason Porter", "$78,615", "Chile", "Gloucester"]
+                ]}
+                />
+            </CardBody>
+            </Card>
+        </GridItem>
+        </GridContainer>
+    );
 }

@@ -47,7 +47,7 @@ export default function StudentForm() {
         curso: '',
     });
 
-    function handleCreate(event){
+    async function handleCreate(event){
         const user = {
             id: event.id,
             cpf: event.cpf,
@@ -57,21 +57,10 @@ export default function StudentForm() {
             curso: event.curso,
         }
 
-        handlePost(user);
-
-        console.log(user);
+        let res = await axios.post("http://localhost:8080/TemplateWS/rest/ws/cadastraAluno", user)
+            .then(resposta => console.log(resposta))
+            .catch(error => console.log(error));
     }
-
-    async function handlePost(data){
-        let res = await axios.post("http://localhost:8080/TemplateWS/rest/ws/cadastraAluno", data);
-    }
-
-    //async function handleCreate(newData){
-      //  setData([...data, newData]);
-
-
-        //let res = await axios.post("http://localhost:8080/TemplateWS/rest/ws/cadastraAluno", data);
-    //}
 
     return (
         <div>
