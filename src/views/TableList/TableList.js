@@ -50,7 +50,7 @@ export default function TableList() {
 
     function handleQuery(){
         axios
-          .get("http://localhost:8080/TemplateWS/rest/ws//alunos/JSON")
+          .get("http://localhost:8080/TemplateWS/rest/ws/alunos/JSON")
           .then(response => {
 
             console.log(response.data.lista);
@@ -71,61 +71,62 @@ export default function TableList() {
 
     const classes = useStyles();
     return (
-        handleQuery(),
         <GridContainer>
         <GridItem xs={12} sm={12} md={12}>
             <Card>
-            <CardHeader color="primary">
-                <h4 className={classes.cardTitleWhite}>Alunos</h4>
-                <p className={classes.cardCategoryWhite}>
-                Todos os alunos
-                </p>
-            </CardHeader>
-            <CardBody>
-                <Table
-                tableHeaderColor="primary"
-                tableHead={["Id", "Matrícula", "Nome", "CPF", "idEndereço", "Curso"]}
-                tableData={[]}
-                />
-            </CardBody>
+                <CardHeader color="primary">
+                    <h4 className={classes.cardTitleWhite}>Alunos</h4>
+                    <p className={classes.cardCategoryWhite}>
+                    Tabela de todos os alunos
+                    </p>
+                </CardHeader>
+                <CardBody>
+                    <Table
+                    tableHeaderColor="primary"
+                    tableHead={["ID", "Matrícula", "Nome", "CPF", "IDEndereço", "Curso"]}
+                    tableData={[]}
+                    />
+                </CardBody>
             </Card>
         </GridItem>
         <GridItem xs={12} sm={12} md={12}>
             <Card plain>
-            <CardHeader plain color="primary">
-                <h4 className={classes.cardTitleWhite}>
-                Table on Plain Background
-                </h4>
-                <p className={classes.cardCategoryWhite}>
-                Here is a subtitle for this table
-                </p>
-            </CardHeader>
-            <CardBody>
-                <Table
-                tableHeaderColor="primary"
-                tableHead={["ID", "Name", "Country", "City", "Salary"]}
-                tableData={[
-                    ["1", "Dakota Rice", "$36,738", "Niger", "Oud-Turnhout"],
-                    ["2", "Minerva Hooper", "$23,789", "Curaçao", "Sinaai-Waas"],
-                    ["3", "Sage Rodriguez", "$56,142", "Netherlands", "Baileux"],
-                    [
-                    "4",
-                    "Philip Chaney",
-                    "$38,735",
-                    "Korea, South",
-                    "Overland Park"
-                    ],
-                    [
-                    "5",
-                    "Doris Greene",
-                    "$63,542",
-                    "Malawi",
-                    "Feldkirchen in Kärnten"
-                    ],
-                    ["6", "Mason Porter", "$78,615", "Chile", "Gloucester"]
-                ]}
-                />
-            </CardBody>
+                <CardHeader plain color="primary">
+                    <h4 className={classes.cardTitleWhite}>
+                    Professores
+                    </h4>
+                    <p className={classes.cardCategoryWhite}>
+                    Tabela de todos os professores
+                    </p>
+                </CardHeader>
+                <CardBody>
+                    <Table
+                    tableHeaderColor="primary"
+                    tableHead={["ID", "Matrícula", "Nome", "Curso", "IDEndereço"]}
+                    tableData={[
+                        [],
+                    ]}
+                    />
+                </CardBody>
+            </Card>
+        </GridItem>
+        <GridItem xs={12} sm={12} md={12}>
+            <Card>
+                <CardHeader color="primary">
+                    <h4 className={classes.cardTitleWhite}>Projetos</h4>
+                    <p className={classes.cardCategoryWhite}>
+                    Tabela de todos os projetos
+                    </p>
+                </CardHeader>
+                <CardBody>
+                    <Table
+                    tableHeaderColor="primary"
+                    tableHead={["ID", "Título do Projeto", "Área do Projeto", "Resumo", "Palavra-Chave 1", "Palavra-Chave 2", "Palavra-Chave 3", "Url", "ID do Professor Responsável", "ID do Aluno Participante"]}
+                    tableData={[
+                        [],
+                    ]}
+                    />
+                </CardBody>
             </Card>
         </GridItem>
         </GridContainer>

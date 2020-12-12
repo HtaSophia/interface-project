@@ -48,16 +48,17 @@ export default function StudentForm() {
     });
 
     async function handleCreate(event){
+
         const user = {
             id: event.id,
             cpf: event.cpf,
             matricula: event.matricula,
             nome: event.nome,
             idEndereco: event.idEndereco,
-            curso: event.curso,
+            curso: event.curso
         }
 
-        let res = await axios.post("http://localhost:8080/TemplateWS/rest/ws/cadastraAluno", user)
+        await axios.post("http://localhost:8080/TemplateWS/rest/ws/cadastraAluno", user)
             .then(resposta => console.log(resposta))
             .catch(error => console.log(error));
     }
