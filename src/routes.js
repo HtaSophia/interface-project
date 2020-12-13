@@ -18,6 +18,7 @@
 // @material-ui/icons
 import Dashboard from "@material-ui/icons/Dashboard";
 import Person from "@material-ui/icons/Person";
+import BusinessCenter from "@material-ui/icons/BusinessCenter";
 import DashboardPage from "views/Dashboard/Dashboard.js";
 import ProjectForm from "views/ProjectForm/ProjectForm.js";
 import StudentForm from "views/StudentForm/StudentForm.js";
@@ -35,7 +36,7 @@ const dashboardRoutes = [
     {
         path: "/project",
         name: "New Project",
-        icon: Person,
+        icon: BusinessCenter,
         component: ProjectForm,
         layout: "/admin",
     },

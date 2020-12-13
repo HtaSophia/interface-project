@@ -26,8 +26,10 @@ export default function RegularButton(props) {
         justIcon,
         className,
         muiClasses,
+        buttonProps,
         ...rest
     } = props;
+
     const btnClasses = classNames({
         [classes.button]: true,
         [classes[size]]: size,
@@ -40,8 +42,14 @@ export default function RegularButton(props) {
         [classes.justIcon]: justIcon,
         [className]: className,
     });
+
     return (
-        <Button {...rest} classes={muiClasses} className={btnClasses}>
+        <Button
+            {...rest}
+            classes={muiClasses}
+            className={btnClasses}
+            onClick={() => buttonProps.handleClick()}
+        >
             {children}
         </Button>
     );
@@ -66,6 +74,7 @@ RegularButton.propTypes = {
     link: PropTypes.bool,
     justIcon: PropTypes.bool,
     className: PropTypes.string,
+    buttonProps: PropTypes.object,
     // use this to pass the classes props from Material-UI
     muiClasses: PropTypes.object,
     children: PropTypes.node,
