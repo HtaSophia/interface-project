@@ -20,7 +20,6 @@ import StudentList from "views/StudentList/StudentList";
 import TeacherList from "views/TeacherList/TeacherList";
 import StudentForm from "views/StudentForm/StudentForm.js";
 import TeacherForm from "views/TeacherForm/TeacherForm.js";
-import TableList from "views/TableList/TableList.js";
 
 const dashboardRoutes = [
     {
@@ -32,7 +31,7 @@ const dashboardRoutes = [
     },
     {
         path: "/project",
-        name: "Projeto",
+        name: "Project",
         icon: BusinessCenter,
         component: ProjectForm,
         layout: "/admin",
@@ -45,17 +44,17 @@ const dashboardRoutes = [
         layout: "/admin",
     },
     {
+        path: "/student",
+        name: "New Student",
+        icon: Person,
+        component: StudentForm,
+        layout: "/admin",
+    },
+    {
         path: "/list-student",
         name: "Student List",
         icon: "content_paste",
         component: StudentList,
-        layout: "/admin",
-    },
-    {
-        path: "/list-teacher",
-        name: "Teacher List",
-        icon: "content_paste",
-        component: TeacherList,
         layout: "/admin",
     },
     {
@@ -66,17 +65,10 @@ const dashboardRoutes = [
         layout: "/admin",
     },
     {
-        path: "/student",
-        name: "New Student",
-        icon: Person,
-        component: StudentForm,
-        layout: "/admin",
-    },
-    {
-        path: "/table",
-        name: "Table List",
+        path: "/list-teacher",
+        name: "Teacher List",
         icon: "content_paste",
-        component: TableList,
+        component: TeacherList,
         layout: "/admin",
     },
 ];
