@@ -79,7 +79,7 @@ export default function ProjectList() {
             <GridItem xs={12} sm={12} md={12}>
                 <Card>
                     <CardHeader color="danger">
-                        <h4 className={classes.cardTitleWhite}>Project List</h4>
+                        <h4 className={classes.cardTitleWhite}>Student List</h4>
                     </CardHeader>
                     <CardBody>
                         <Table
@@ -92,6 +92,7 @@ export default function ProjectList() {
                                 "id Endereço",
                                 "Curso"
                             ]}
+                            path="student"
                             tableData={students}
                         />
                     </CardBody>

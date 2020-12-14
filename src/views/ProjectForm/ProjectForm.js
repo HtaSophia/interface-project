@@ -60,7 +60,7 @@ export default function ProjectForm(props) {
         axios
             .get("http://localhost:8080/TemplateWS/rest/ws/professores/JSON")
             .then((response) => {
-                const data = response.data.map((element) => ({
+                const data = response.data.lista.map((element) => ({
                     value: element.id.toString(),
                     label: element.nome,
                 }));
@@ -72,7 +72,7 @@ export default function ProjectForm(props) {
         axios
             .get("http://localhost:8080/TemplateWS/rest/ws/alunos/JSON")
             .then((response) => {
-                const data = response.data.map((element) => ({
+                const data = response.data.lista.map((element) => ({
                     value: element.id.toString(),
                     label: element.nome,
                 }));
@@ -85,7 +85,7 @@ export default function ProjectForm(props) {
             axios
                 .get("http://localhost:8080/TemplateWS/rest/ws/projetos/JSON")
                 .then((response) => {
-                    const data = response.data.find(
+                    const data = response.data.lista.find(
                         (element) => element.id == location.query.id
                     );
 

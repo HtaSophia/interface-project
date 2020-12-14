@@ -98,6 +98,7 @@ export default function ProjectList() {
                                 "ID Professor",
                                 "ID Aluno",
                             ]}
+                            path="project"
                             tableData={projects}
                         />
                     </CardBody>

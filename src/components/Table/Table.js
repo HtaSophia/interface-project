@@ -14,7 +14,7 @@ const useStyles = makeStyles(styles);
 
 export default function CustomTable(props) {
     const classes = useStyles();
-    const { tableHead, tableData, tableHeaderColor } = props;
+    const { tableHead, tableData, tableHeaderColor, path } = props;
     return (
         <div className={classes.tableResponsive}>
             <Table className={classes.table}>
@@ -58,7 +58,7 @@ export default function CustomTable(props) {
                                         >
                                             <Link
                                                 to={{
-                                                    pathname: "/admin/project",
+                                                    pathname: `/admin/${path}`,
                                                     query: { id: propT[0] },
                                                 }}
                                             >
@@ -81,6 +81,7 @@ CustomTable.defaultProps = {
 };
 
 CustomTable.propTypes = {
+    path: PropTypes.string,
     tableHeaderColor: PropTypes.oneOf([
         "warning",
         "primary",
