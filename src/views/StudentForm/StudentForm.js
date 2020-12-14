@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 // core components
@@ -33,35 +33,53 @@ const styles = {
 
 const useStyles = makeStyles(styles);
 
-export default function StudentForm() {
+export default function StudentForm(props) {
     const classes = useStyles();
 
-    const { useState } = React;
+    const { match } = props;
+    console.log(match);
 
-    const [data, setData] = useState({
-        id: '',
-        cpf: '',
-        matricula: '',
-        nome: '',
-        endereco: '',
-        curso: '',
-    });
+    const [id, setID] = useState("");
+    const [cpf, setCPF] = useState("");
+    const [matricula, setMatricula] = useState("");
+    const [nome, setNome] = useState("");
+    const [idEnd, setIDEnd] = useState("");
+    const [curso, setCurso] = useState("");
 
-    async function handleCreate(event){
+    function handleSubmit(){
 
-        const user = {
-            id: event.id,
-            cpf: event.cpf,
-            matricula: event.matricula,
-            nome: event.nome,
-            idEndereco: event.idEndereco,
-            curso: event.curso
+        const student = {
+            id: id,
+            cpf: cpf,
+            matricula: matricula,
+            nome: nome,
+            idEndereco: idEnd,
+            curso: curso
         }
 
-        await axios.post("http://localhost:8080/TemplateWS/rest/ws/cadastraAluno", user)
-            .then(resposta => console.log(resposta))
+        console.log(student);
+
+        axios.post("http://localhost:8080/TemplateWS/rest/ws/cadastraAluno", student)
+            .then(res => console.log(res))
             .catch(error => console.log(error));
     }
+
+    /*useEffect(() => {
+        const getData = async () => {
+            const response = await axios.get("http://localhost:8080/TemplateWS/rest/ws/alunos/JSON")
+            .then(res => console.log(res))
+            .catch(error => console.log(error));
+        }
+    }, []); */
+
+    useEffect(() => {
+        axios
+            .get("http://localhost:8080/TemplateWS/rest/ws/alunos/JSON")
+            .then((response) => {
+                console.log(response);
+                // setStudents(response.data);
+            });
+    }, []);
 
     return (
         <div>
@@ -83,6 +101,11 @@ export default function StudentForm() {
                                         formControlProps={{
                                             fullWidth: true,
                                         }}
+                                        inputProps={{
+                                            value: id,
+                                            onChange: (event) =>
+                                                setID(event.target.value),
+                                        }}
                                     />
                                 </GridItem>
                                 <GridItem xs={12} sm={12} md={6}>
@@ -91,6 +114,11 @@ export default function StudentForm() {
                                         id="matricula"
                                         formControlProps={{
                                             fullWidth: true,
+                                        }}
+                                        inputProps={{
+                                            value: matricula,
+                                            onChange: (event) =>
+                                                setMatricula(event.target.value),
                                         }}
                                     />
                                 </GridItem>
@@ -103,6 +131,11 @@ export default function StudentForm() {
                                         formControlProps={{
                                             fullWidth: true,
                                         }}
+                                        inputProps={{
+                                            value: nome,
+                                            onChange: (event) =>
+                                                setNome(event.target.value),
+                                        }}
                                     />
                                 </GridItem>
                             </GridContainer>
@@ -114,6 +147,11 @@ export default function StudentForm() {
                                         formControlProps={{
                                             fullWidth: true,
                                         }}
+                                        inputProps={{
+                                            value: cpf,
+                                            onChange: (event) =>
+                                                setCPF(event.target.value),
+                                        }}
                                     />
                                 </GridItem>
                                 <GridItem xs={12} sm={12} md={6}>
@@ -122,6 +160,11 @@ export default function StudentForm() {
                                         id="idEndereco"
                                         formControlProps={{
                                             fullWidth: true,
+                                        }}
+                                        inputProps={{
+                                            value: idEnd,
+                                            onChange: (event) =>
+                                                setIDEnd(event.target.value),
                                         }}
                                     />
                                 </GridItem>
@@ -135,8 +178,9 @@ export default function StudentForm() {
                                             fullWidth: true,
                                         }}
                                         inputProps={{
-                                            multiline: true,
-                                            rows: 5,
+                                            value: curso,
+                                            onChange: (event) =>
+                                                setCurso(event.target.value),
                                         }}
                                     />
                                 </GridItem>
@@ -144,13 +188,7 @@ export default function StudentForm() {
                         </CardBody>
                         <CardFooter>
                             <Button color="danger">Cancel</Button>
-                            <Button color="success" onClick={() => handleCreate({id: document.getElementById('id').value,
-                                cpf: document.getElementById('cpf').value,
-                                matricula: document.getElementById('matricula').value,
-                                nome: document.getElementById('nome').value,
-                                idEndereco: document.getElementById('idEndereco').value,
-                                curso: document.getElementById('curso').value
-                                })}>Save</Button>
+                            <Button color="success" onClick={handleSubmit}>Save</Button>
                         </CardFooter>
                     </Card>
                 </GridItem>
