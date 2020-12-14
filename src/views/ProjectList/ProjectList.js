@@ -50,12 +50,12 @@ export default function ProjectList() {
 
     useEffect(() => {
         axios
-            .get("http://localhost:8080/projetos")
-            // .get("http://localhost:8080/TemplateWS/rest/ws/projetos/JSON")
+            //.get("http://localhost:8080/projetos")
+            .get("http://localhost:8080/TemplateWS/rest/ws/projetos/JSON")
             .then((response) => {
                 const data = [];
 
-                response.data.forEach((element) => {
+                response.data.lista.forEach((element) => {
                     const elementToTable = [
                         (element.id || "").toString(),
                         (element.tituloProjeto || "").toString(),
