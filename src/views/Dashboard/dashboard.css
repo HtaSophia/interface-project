@@ -1,0 +1,9 @@
+img{
+    max-width: 1600px;
+    max-height: 1600px;
+}
+
+h1{
+    background-color: rgb(255, 253, 253);
+    max-width: 43%;
+}
