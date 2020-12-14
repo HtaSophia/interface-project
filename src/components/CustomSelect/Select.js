@@ -66,7 +66,7 @@ export default function CustomSelect(props) {
                     input={<SelectInput />}
                 >
                     {options.map((opt) => (
-                        <MenuItem value={opt.value} key={opt.id}>
+                        <MenuItem value={opt.value} key={opt.value}>
                             {opt.label}
                         </MenuItem>
                     ))}

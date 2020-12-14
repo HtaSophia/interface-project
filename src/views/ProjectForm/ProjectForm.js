@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 
 import { makeStyles } from "@material-ui/core/styles";
+import { useHistory } from "react-router-dom";
 
 import GridItem from "components/Grid/GridItem.js";
 import GridContainer from "components/Grid/GridContainer.js";
@@ -37,13 +38,11 @@ const useStyles = makeStyles(styles);
 
 export default function ProjectForm(props) {
     const classes = useStyles();
+    const history = useHistory();
 
-    const { match } = props;
-    console.log(match);
+    const { location } = props;
 
-    const [teachers, setTeachers] = useState([
-        { id: "test", value: "10", label: "Test" },
-    ]);
+    const [teachers, setTeachers] = useState([]);
 
     const [students, setStudents] = useState([]);
 
@@ -61,8 +60,11 @@ export default function ProjectForm(props) {
         axios
             .get("http://localhost:8080/TemplateWS/rest/ws/professores/JSON")
             .then((response) => {
-                console.log(response);
-                // setTeachers(response.data);
+                const data = response.data.map((element) => ({
+                    value: element.id.toString(),
+                    label: element.nome,
+                }));
+                setTeachers(data);
             });
     }, []);
 
@@ -70,9 +72,34 @@ export default function ProjectForm(props) {
         axios
             .get("http://localhost:8080/TemplateWS/rest/ws/alunos/JSON")
             .then((response) => {
-                console.log(response);
-                // setStudents(response.data);
+                const data = response.data.map((element) => ({
+                    value: element.id.toString(),
+                    label: element.nome,
+                }));
+                setStudents(data);
             });
+    }, []);
+
+    useEffect(() => {
+        if (location && location.query && location.query.id) {
+            axios
+                .get("http://localhost:8080/TemplateWS/rest/ws/projetos/JSON")
+                .then((response) => {
+                    const data = response.data.find(
+                        (element) => element.id == location.query.id
+                    );
+
+                    setTitle(data.tituloProjeto || "");
+                    setArea(data.areaProjeto || "");
+                    setResume(data.resumo || "");
+                    setKeyword1(data.palavraChave1 || "");
+                    setKeyword2(data.palavraChave2 || "");
+                    setKeyword3(data.palavraChave3 || "");
+                    setUrl(data.url || "");
+                    setTeacher((data.idProfessorResponsavel || "").toString());
+                    setStudent((data.idAlunoParticipante || "").toString());
+                });
+        }
     }, []);
 
     function handleSubmit() {
@@ -84,17 +111,53 @@ export default function ProjectForm(props) {
             palavraChave2: keyword2,
             palavraChave3: keyword3,
             url: url,
-            idProfessorResponsavel: teacher,
-            idAlunoParticipante: student,
+            idProfessorResponsavel: parseInt(teacher),
+            idAlunoParticipante: parseInt(student),
+        };
+
+        if (location && location.query && location.query.id) {
+            axios
+                .post(
+                    "http://localhost:8080/TemplateWS/rest/ws/atualizaProjeto",
+                    project
+                )
+                .then((res) => console.log(res))
+                .catch((error) => console.log(error));
+        } else {
+            axios
+                .post(
+                    "http://localhost:8080/TemplateWS/rest/ws/cadastraProjeto",
+                    project
+                )
+                .then((res) => console.log(res))
+                .catch((error) => console.log(error));
+        }
+    }
+
+    function handleRemove() {
+        console.log("here");
+        const project = {
+            tituloProjeto: title,
+            areaProjeto: area,
+            resumo: resume,
+            palavraChave1: keyword1,
+            palavraChave2: keyword2,
+            palavraChave3: keyword3,
+            url: url,
+            idProfessorResponsavel: parseInt(teacher),
+            idAlunoParticipante: parseInt(student),
         };
 
         axios
-            .post(
-                "http://localhost:8080/TemplateWS/rest/ws/cadastraProjeto",
+            .delete(
+                "http://localhost:8080/removeProjeto/1",
+                // "http://localhost:8080/TemplateWS/rest/ws/removeProjeto",
                 project
             )
             .then((res) => console.log(res))
             .catch((error) => console.log(error));
+
+        history.push("/admin/list-project");
     }
 
     return (
@@ -112,7 +175,7 @@ export default function ProjectForm(props) {
                             <GridContainer>
                                 <GridItem xs={12} sm={12} md={6}>
                                     <CustomInput
-                                        labelText="Title"
+                                        labelText="Titulo"
                                         id="title"
                                         formControlProps={{
                                             fullWidth: true,
@@ -158,7 +221,7 @@ export default function ProjectForm(props) {
                             <GridContainer>
                                 <GridItem xs={12} sm={12} md={4}>
                                     <CustomInput
-                                        labelText="Keyword #1"
+                                        labelText="Palavra-Chave #1"
                                         id="keyword-1"
                                         formControlProps={{
                                             fullWidth: true,
@@ -172,7 +235,7 @@ export default function ProjectForm(props) {
                                 </GridItem>
                                 <GridItem xs={12} sm={12} md={4}>
                                     <CustomInput
-                                        labelText="Keyword #2"
+                                        labelText="Palavra-Chave #2"
                                         id="keyword-2"
                                         formControlProps={{
                                             fullWidth: true,
@@ -186,7 +249,7 @@ export default function ProjectForm(props) {
                                 </GridItem>
                                 <GridItem xs={12} sm={12} md={4}>
                                     <CustomInput
-                                        labelText="Keyword #3"
+                                        labelText="Palavra-Chave #3"
                                         id="keyword-3"
                                         formControlProps={{
                                             fullWidth: true,
@@ -232,7 +295,7 @@ export default function ProjectForm(props) {
                             <GridContainer>
                                 <GridItem xs={12} sm={12} md={12}>
                                     <CustomInput
-                                        labelText="Resume"
+                                        labelText="Resumo"
                                         id="resume"
                                         formControlProps={{
                                             fullWidth: true,
@@ -249,15 +312,24 @@ export default function ProjectForm(props) {
                             </GridContainer>
                         </CardBody>
                         <CardFooter>
+                            {location.query && location.query.id && (
+                                <Button
+                                    color="danger"
+                                    buttonProps={{
+                                        handleClick: handleRemove,
+                                    }}
+                                >
+                                    Remove
+                                </Button>
+                            )}
                             <Button
-                                color="danger"
+                                color="success"
                                 buttonProps={{
                                     handleClick: handleSubmit,
                                 }}
                             >
-                                Cancel
+                                Save
                             </Button>
-                            <Button color="success">Save</Button>
                         </CardFooter>
                     </Card>
                 </GridItem>
